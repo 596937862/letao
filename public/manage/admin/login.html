@@ -1,14 +1,157 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     
-    <title>��¼��</title>
-    <link href="../lib/" rel="stylesheet" />
-
+    <title>乐淘商城-登录页</title>
+    <link href="../lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../lib/bootstrap-validator/css/bootstrapValidator.css">
+    <link rel="stylesheet" href="../lib/nprogress/nprogress.css">
+    <style>
+        html,body{
+            height: 100%;
+            background-color: black;
+        }
+        .naves{
+            width: 400px;
+            margin: 200px auto;
+        }
+    </style>
 </head>
 <body>
+    <div class="naves">
+    
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2 class="panel-title text-center">后台管理系统</h2>
+            </div>
+            <div class="panel-body">
+                    <form class="form-horizontal">
+                            <div class="form-group">
+                              <label for="inputEmail3" class="col-sm-3 control-label" autocomplete="off">用户名：</label>
+                              <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputEmail3" name="username" placeholder="请输入用户名">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputPassword3" class="col-sm-3 control-label">密码：</label>
+                              <div class="col-sm-9">
+                                <input type="password" class="form-control" id="inputPassword3" name="password" placeholder="请输入密码">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="col-sm-offset-3 col-sm-6">
+                                <button type="reset" class="btn btn-default pull-left">重置</button>
+                                <button type="submit" class="btn btn-primary pull-right">登录</button>
+                              </div>
+                            </div>
+                          </form>
+            </div>
+        </div>
+    
+    </div>
 
 
 
+    <script src="../lib/jquery/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="../lib/bootstrap-validator/js/bootstrapValidator.js"></script>
+    <script src="../lib/nprogress/nprogress.js"></script>
+    <script>
+
+        $(function () {
+            $(document).ajaxSend(function(){
+                NProgress.start()
+            });
+            $(document).ajaxComplete(function(){
+
+
+                    NProgress.done();
+
+                
+            });
+            $(".form-horizontal").bootstrapValidator({
+                fields: {
+                    username: {
+                        validators: {
+                            notEmpty: {
+                                message: "用户名不能为空！！"
+
+
+                            },
+                            stringLength: {
+                                message: "用户长度为3-9位",
+                                min: 3,
+                                max: 9
+                            },
+                            callback:{
+                                message:"用户名错误"
+                            }
+
+
+                        }
+                    },
+                    password: {
+                        validators: {
+                            notEmpty: {
+                                message: "密码不能为空！！"
+
+
+                            },
+                            stringLength: {
+                                message: "用户密码为6-12位",
+                                min: 6,
+                                max: 12
+                            },
+                            callback:{
+                                message:"密码错误"
+                            }
+
+                        }
+                    },
+                },
+                feedbackIcons: {
+                    valid: "glyphicon glyphicon-ok",
+                    invalid: "glyphicon glyphicon-remove",
+                    validating: "glyphicon glyphicon-refresh"
+
+
+                }
+
+
+
+            });
+
+            $(".form-horizontal").on("success.form.bv", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "post",
+                    url:"/employee/employeeLogin",
+                    data:$(".form-horizontal").serialize(),
+                    dataType:"json",
+                    success:function(info){
+                        if(info.success){
+                            location.href="index.html"
+                        }else if(info.error===1000){
+                            $(".form-horizontal").data("bootstrapValidator").updateStatus("username","INVALID","callback")
+                        }else if(info.error===1001){
+                            $(".form-horizontal").data("bootstrapValidator").updateStatus("password","INVALID","callback")
+                        }
+                    }
+                });
+            });
+            $("[type='reset']").on("click",function(){
+
+                $(".form-horizontal").data("bootstrapValidator").resetForm();
+
+            });
+
+            
+
+        });
+
+        
+    
+    </script>
 
 
 </body>
