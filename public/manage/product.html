@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>乐淘商城-商品管理</title>
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="lib/bootstrap-validator/css/bootstrapValidator.css">
+
+  <link rel="stylesheet" href="lib/nprogress/nprogress.css">
+  <link rel="stylesheet" href="css/common.css">
+</head>
+
+<body>
+  <div class="lt_aside">
+    <div class="brand">
+      <a href="index.html">黑马22期</a>
+    </div>
+    <div class="user">
+      <img src="images/default.jpg" alt="">
+      <p>超级管理员</p>
+    </div>
+    <div class="nav">
+      <ul>
+        <li>
+          <a href="user.html">
+            <span class="glyphicon glyphicon-user"></span>
+            <span>用户管理</span>
+          </a>
+        </li>
+        <li>
+          <a href="javascript:;">
+            <span class="glyphicon glyphicon-list"></span>
+            <span>分类管理</span>
+          </a>
+          <div class="child" style="display: none;">
+            <a href="first.html">一级分类</a>
+            <a href="second.html">二级分类</a>
+          </div>
+        </li>
+        <li>
+          <a href="product.html">
+            <span class="glyphicon glyphicon-tags"></span>
+            <span>商品管理</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="lt_main">
+    <div class="header">
+      <a href="javascript:;" class="pull-left">
+        <span class="glyphicon glyphicon-align-justify icon_menu"></span>
+      </a>
+      <a href="javascript:;" class="pull-right">
+        <span class="glyphicon glyphicon-log-out icon_logout"></span>
+      </a>
+    </div>
+
+    <div class="container-fluid">
+      <!-- 路径导航 -->
+      <ol class="breadcrumb">
+        <li>
+          <a href="#">管理系统</a>
+        </li>
+        <li class="active">商品管理</li>
+      </ol>
+
+      <!-- 内容区域 -->
+      <div class="content">
+
+        <button class="btn btn-default add_tips">添加商品</button>
+        <table class="table table-bordered table-striped mt_15">
+          <thead>
+            <tr>
+              <th width=10%>序号</th>
+              <th width=25%>商品名称</th>
+              <th width=25%>商品描述</th>
+              <th width=10%>商品库存</th>
+              <th width=10%>商品尺寸</th>
+              <th width=10%>商品状态</th>
+              <th width=10%>操作</th>
+            </tr>
+          </thead>
+          <tbody class="tbody">
+
+          </tbody>
+        </table>
+        <div class="text-right">
+          <ul id="pagintor">
+
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 退出模态框 -->
+  <div class="modal fade" tabindex="-1" id="logoutModal">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">温馨提示</h4>
+        </div>
+        <div class="modal-body">
+          <p class="text-danger">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            您确定要退出后台管理系统吗？
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary btn_logout">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" tabindex="-1" id="addModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">添加商品</h4>
+        </div>
+        <form>
+          <div class="modal-body">
+            <!-- 这个结构不能自己写，去bootstrap官网拷贝 -->
+            <div class="form-group">
+              <input type="hidden" name="brandId">
+              <!-- 因为hot是必传的，就写死了1 -->
+              <input type="hidden" name="statu" value="1">
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                  <span class="dropdown-text">请选择二级分类</span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <!-- 挖个坑 -->
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="proName" class="form-control" placeholder="请输入商品的名称">
+            </div>
+
+            <div class="form-group">
+              <textarea name="proDesc" id="" cols="" class="form-control" rows="3" placeholder="请输入商品的描述"></textarea>
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="num" class="form-control" placeholder="请输入商品的库存">
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="size" class="form-control" placeholder="请输入商品的尺码（32-46）">
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="oldPrice" class="form-control" placeholder="请输入商品的原价">
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="price" class="form-control" placeholder="请输入商品的价格">
+            </div>
+
+            <!-- 上传按钮 -->
+            <div class="form-group">
+              <label for="fileupload" class="btn btn-default">上传图片</label>
+              <!-- name: 上传图片的name属性，后端通过name属性获取到文件 -->
+              <!-- data-url: 指定后端的地址 -->
+              <input type="file" id="fileupload" class="hidden" name="pic1" data-url="/product/addProductPic" multiple>
+            </div>
+
+            <div class="form-group">
+              <div class="img_box">
+                <input type="hidden" name="brandLogo">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="submit" class="btn btn-primary btn_confirm">确定</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script type="text/html" id="tpl1">
+    {{each rows v i}}
+    <tr>
+      <td>{{(page-1)*size+i+1}}</td>
+      <td>{{v.proName}}</td>
+      <td>{{v.proDesc}}</td>
+      <td>{{v.num}}</td>
+      <td>{{v.size}}</td>
+      <td>{{v.statu===1?"已上架":"已下架"}}</td>
+      <td>
+        <button class="btn btn-danger">下架</button>
+      </td>
+    </tr>
+    {{/each}}
+  </script>
+
+
+
+  <script type="text/html" id="tpl2">
+    {{each rows v i}}
+    <li><a data-id="{{v.id}}" tabindex="-1" href="#">{{v.brandName}}</a></li>
+    {{/each}}
+  </script>
+
+
+  <script src="lib/jquery/jquery.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.js"></script>
+  <script src="lib/bootstrap-paginator/bootstrap-paginator.js"></script>
+  <script src="lib/bootstrap-validator/js/bootstrapValidator.js"></script>
+  <script src="lib/nprogress/nprogress.js"></script>
+  <script src="lib/artTemplate/template-web.js"></script>
+  <script src="lib/jquery-fileupload/jquery.ui.widget.js"></script>
+  <script src="lib/jquery-fileupload/jquery.fileupload.js"></script>
+  <script src="js/common.js"></script>
+
+
+  <script>
+    $(function () {
+      var page = 1;
+      var pageSize = 3;
+
+      render();
+
+      function render() {
+        $.ajax({
+
+          type: "get",
+          url: " /product/queryProductDetailList",
+          dataType: "json",
+          data: {
+            page: page,
+            pageSize: pageSize
+          },
+          success: function (info) {
+            $(".tbody").html(template("tpl1", info));
+
+            $("#pagintor").bootstrapPaginator({
+              bootstrapMajorVersion: 3,//默认是2，如果是bootstrap3版本，这个参数必填
+              currentPage: info.page,//当前页
+              totalPages: Math.ceil(info.total / info.size),//总页数
+              size: "small",//设置控件的大小，mini, small, normal,large
+              onPageClicked: function (event, originalEvent, type, p) {
+                //为按钮绑定点击事件 page:当前点击的按钮值
+                page = p;
+                render();
+              },
+              itemTexts: function (type, page, current) {
+                switch (type) {
+                  case "page":
+                    return page;
+                  case "next":
+                    return "下一页";
+                  case "last":
+                    return "尾页";
+                  case "first":
+                    return "首页";
+                  case "prev":
+                    return "上一页";
+                }
+              },
+              tooltipTitles: function (type, page, current) {
+                switch (type) {
+                  case "page":
+                    return page;
+                  case "next":
+                    return "下一页";
+                  case "last":
+                    return "尾页";
+                  case "first":
+                    return "首页";
+                  case "prev":
+                    return "上一页";
+                }
+              },
+              useBootstrapTooltip: true,
+            });
+          }
+        })
+
+
+      };
+
+      $(".add_tips").on("click", function () {
+        $("#addModal").modal("show");
+      });
+
+      $("#dropdownMenu1").on("click", function () {
+
+        $.ajax({
+          type: "get",
+          url: "/category/querySecondCategoryPaging",
+          data: {
+            page: 1,
+            pageSize: 100
+          },
+          success: function (info) {
+            $(".dropdown-menu").html(template("tpl2", info))
+          }
+        })
+      });
+
+      $(".dropdown-menu").on("click", "a", function () {
+
+        $("[name='brandId']").val($(this).data("id"));
+        $(".dropdown-text").text($(this).text());
+        $("form").data("bootstrapValidator").updateStatus("brandId", "VALID");
+      });
+
+
+      $("form").bootstrapValidator({
+        //1. 指定不校验的类型，默认为[':disabled', ':hidden', ':not(:visible)'],可以不设置
+        excluded: [],
+
+        //2. 指定校验时的图标显示，默认是bootstrap风格
+        feedbackIcons: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+        },
+
+        //3. 指定校验字段
+        fields: {
+          //校验用户名，对应name表单的name属性
+          brandId: {
+            validators: {
+              //不能为空
+              notEmpty: {
+                message: '请选择二级分类！！'
+              }
+            }
+          },
+          proName: {
+            validators: {
+              //不能为空
+              notEmpty: {
+                message: '商品名不能为空'
+              },
+            }
+          },
+          proDesc: {
+            validators: {
+              //不能为空
+              notEmpty: {
+                message: '商品描述不能为空'
+              },
+            }
+          },
+          num: {
+            validators: {
+              //不能为空
+              notEmpty: {
+                message: '商品库存不能为空'
+              },
+              regexp: {
+                regexp: /\d/,
+                message: '库存由数字组成'
+              }
+            }
+          },
+          size: {
+            validators: {
+              //不能为空
+              notEmpty: {
+                message: '商品尺码不能为空'
+              },
+              regexp: {
+                regexp: /^\d{2}-\d{2}$/,
+                message: '尺码格式XX-XX'
+              }
+            }
+          },
+          oldPrice: {
+            validators: {
+              //不能为空
+              notEmpty: {
+                message: '商品原价不能为空'
+              },
+              regexp: {
+                regexp: /\d/,
+                message: '原价由数字组成'
+              }
+            }
+          },
+          price: {
+            validators: {
+              //不能为空
+              notEmpty: {
+                message: '商品价格不能为空'
+              },
+              regexp: {
+                regexp: /\d/,
+                message: '价格由数字组成'
+              }
+            }
+          },
+          brandLogo: {
+            validators: {
+              //不能为空
+              notEmpty: {
+                message: '请传三张图片'
+              },
+            }
+          },
+        }
+      });
+
+
+
+      var picArr = [];
+      $("#fileupload").fileupload({
+        dataType: "json",
+        //e：事件对象
+        //data：图片上传后的对象，通过e.result.picAddr可以获取上传后的图片地址
+        done: function (e, data) {
+          // console.log("data", data);
+          // console.log("e", e);
+          $(".img_box").append('<img src="' + (data.result.picAddr ? data.result.picAddr : "images/none.png") + '" width="100" alt="">');
+
+          picArr.push(data.result);
+
+          if (picArr.length === 3) {
+            $("form").data("bootstrapValidator").updateStatus("brandLogo", "VALID");
+          } else {
+            $("form").data("bootstrapValidator").updateStatus("brandLogo", "INVALID");
+          }
+        }
+      });
+
+
+      $("form").on('success.form.bv', function (e) {
+        e.preventDefault();
+        //使用ajax提交逻辑
+
+        var param = $("form").serialize();
+
+        param += "&picName1=" + picArr[0].picName + "&picAddr1=" + picArr[0].picAddr;
+        param += "&picName2=" + picArr[1].picName + "&picAddr2=" + picArr[1].picAddr;
+        param += "&picName3=" + picArr[2].picName + "&picAddr3=" + picArr[2].picAddr;
+
+
+        $.ajax({
+          type:"post",
+          url:"/product/addProduct",
+          data:param,
+          success:function(info){
+            console.log(info);
+            if(info.success){
+              $("#addModal").modal("hide");
+              $("form").data("bootstrapValidator").resetForm(true);
+              $(".dropdown-text").text("请选择二级分类")
+              render();
+              $(".img_box img").remove();
+              picArr=[];
+            }
+
+          }
+
+
+        });
+
+      });
+
+
+    });
+
+
+
+  </script>
+
+
+</body>
+
+</html>
